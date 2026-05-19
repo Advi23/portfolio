@@ -5,18 +5,18 @@ function App() {
   return (
     <> 
       <MenuBar />
-      <main className="main-content">
+      <main className="pt-16">
         <Home />
-        <section id="experience">
+        <section id="experience" className="p-10">
           <h1>Experience</h1>
         </section>
-        <section id="projects">
+        <section id="projects" className="p-10">
           <h1>Projects</h1>
         </section>
-        <section id="skills">
+        <section id="skills" className="p-10">
           <h1>Skills/Certifications</h1>
         </section>
-        <section id="about">
+        <section id="about" className="p-10">
           <h1>About</h1>
         </section>
       </main>
