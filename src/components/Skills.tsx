@@ -15,7 +15,6 @@ import bread from './bread.png';
 import breadShadow from './bread-shadow.png';
 import compTIA from './comptia.jpg';
 import learnX from './learnx.jpg';
-import certiport from './certiport.png';
 
 const skills = [
   { label: 'GitHub', icon: FaGithub, image: null, color: '#000000' },
