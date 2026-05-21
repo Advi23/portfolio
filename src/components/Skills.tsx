@@ -11,10 +11,10 @@ import {
 } from 'react-icons/si';
 
 import { useState } from 'react';
-import bread from './bread.png';
-import breadShadow from './bread-shadow.png';
-import compTIA from './comptia.jpg';
-import learnX from './learnx.jpg';
+import bread from '../assets/bread.png';
+import breadShadow from '../assets/bread-shadow.png';
+import compTIA from '../assets/comptia.jpg';
+import learnX from '../assets/learnx.jpg';
 
 const skills = [
   { label: 'GitHub', icon: FaGithub, image: null, color: '#000000' },
@@ -45,8 +45,8 @@ function chunkMobile(arr: typeof skills) {
     const rows = [];
     let i = 0;
     while (i < arr.length) {
-        rows.push(arr.slice(i, i + 4));
-        i += 4;
+        rows.push(arr.slice(i, i + 3));
+        i += 3;
     }
 
     return rows;
@@ -116,7 +116,7 @@ export default function Skills() {
                 {rows.map((row, rowIndex) => (
                     <div key={rowIndex} 
                         className={`flex w-full gap-4 
-                            ${isMobile && row.length !== 4 ? 'justify-center' : 'justify-between'}
+                            ${isMobile && row.length !== 3 ? 'justify-center' : 'justify-between'}
                             ${!isMobile && rowIndex % 2 !== 0 ? 'px-[9.5%]' : ''}`}
                     >
                         {row.map((skill) => (
