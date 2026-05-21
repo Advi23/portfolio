@@ -40,10 +40,22 @@ function chunkAlternating(arr: typeof skills) {
     return rows;
 }
 
+function chunkMobile(arr: typeof skills) {
+    const rows = [];
+    let i = 0;
+    while (i < arr.length) {
+        rows.push(arr.slice(i, i + 4));
+        i += 4;
+    }
+
+    return rows;
+}
+
 // Function for each card
 function SkillCard ({skill}: {skill: typeof skills[0]}) {
     const [ hovered, setHovered ] = useState(false);
     const Icon = skill.icon;
+    const isMobile = window.innerWidth < 768;
 
     return (
         <div
@@ -52,7 +64,7 @@ function SkillCard ({skill}: {skill: typeof skills[0]}) {
             onMouseLeave={() => setHovered(false)}
         >
             {/* Bread image with icon on top */}
-            <div className="relative w-50 h-50 flex items-center justify-center">
+            <div className="relative w-25 h-25 md:w-50 md:h-50 flex items-center justify-center">
                 <img
                     src={hovered ? breadShadow : bread}
                     alt="bread"
@@ -63,12 +75,12 @@ function SkillCard ({skill}: {skill: typeof skills[0]}) {
                 <div 
                     className="relative z-10"
                     style={{
-                        marginTop: -35,
-                        marginLeft: -15,
+                        marginTop: isMobile ? -25 : -35,
+                        marginLeft: isMobile ? -10 : -15,
                     }}
                 >
                     {Icon ? 
-                        (<Icon size={40} color={skill.color} />) :
+                        (<Icon size={isMobile ? 25 : 40} color={skill.color} />) :
                         (<span
                             className="text-base font-bold text-center"
                             style={{color:skill.color}}
@@ -78,7 +90,7 @@ function SkillCard ({skill}: {skill: typeof skills[0]}) {
                     )}
                 </div>
             </div>
-            <span className="text-sm text-center text-gray-600">
+            <span className="text-xs md:text-sm text-center text-gray-600 -mt-5 md:-mt-10">
                 {skill.label}
             </span>
         </div>
@@ -86,16 +98,18 @@ function SkillCard ({skill}: {skill: typeof skills[0]}) {
 }
 
 export default function Skills() {
-    const rows = chunkAlternating(skills);
+    const isMobile = window.innerWidth < 768;
+    const rows = isMobile ? chunkMobile(skills) : chunkAlternating(skills);
 
     return (
         <section id="skills" className="p-6 md:p-10 font-['Jua']">
             <h2 className="text-2xl mb-6">Other Skills and Certifications</h2>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col md:gap-2">
                 {rows.map((row, rowIndex) => (
                     <div key={rowIndex} 
-                        className={`flex w-full justify-between gap-4 ${
-                        rowIndex % 2 !== 0 ? 'px-[9.5%]' : ''}`}
+                        className={`flex w-full gap-4 
+                            ${isMobile && row.length !== 4 ? 'justify-center' : 'justify-between'}
+                            ${!isMobile && rowIndex % 2 !== 0 ? 'px-[9.5%]' : ''}`}
                     >
                         {row.map((skill) => (
                             <SkillCard key={skill.label} skill={skill} />
