@@ -10,6 +10,10 @@ import {
     SiCoursera,
 } from 'react-icons/si';
 
+import { useState } from 'react';
+import bread from '../assets/bread.png';
+import breadShadow from '../assets/bread-shadow.png';
+
 const skills = [
   { label: 'GitHub', icon: FaGithub, color: '#000000' },
   { label: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
@@ -36,6 +40,51 @@ function chunkAlternating(arr: typeof skills) {
     return rows;
 }
 
+// Function for each card
+function SkillCard ({skill}: {skill: typeof skills[0]}) {
+    const [ hovered, setHovered ] = useState(false);
+    const Icon = skill.icon;
+
+    return (
+        <div
+            className="flex flex-col items-center justify-center cursor-default"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            {/* Bread image with icon on top */}
+            <div className="relative w-50 h-50 flex items-center justify-center">
+                <img
+                    src={hovered ? breadShadow : bread}
+                    alt="bread"
+                    className="absolute inset-0 w-full h-full object-contain transition-all duration-200"
+                    style={{ imageRendering: 'pixelated' }}
+                />
+
+                <div 
+                    className="relative z-10"
+                    style={{
+                        marginTop: -35,
+                        marginLeft: -15,
+                    }}
+                >
+                    {Icon ? 
+                        (<Icon size={40} color={skill.color} />) :
+                        (<span
+                            className="text-base font-bold text-center"
+                            style={{color:skill.color}}
+                        >
+                            {skill.label}
+                        </span>
+                    )}
+                </div>
+            </div>
+            <span className="text-sm text-center text-gray-600">
+                {skill.label}
+            </span>
+        </div>
+    );
+}
+
 export default function Skills() {
     const rows = chunkAlternating(skills);
 
@@ -44,30 +93,13 @@ export default function Skills() {
             <h2 className="text-2xl mb-6">Other Skills and Certifications</h2>
             <div className="flex flex-col gap-2">
                 {rows.map((row, rowIndex) => (
-                    <div key={rowIndex} className={`flex w-full justify-between gap-4 ${
-                        rowIndex % 2 !== 0 ? 'px-[9.5%]' : ''}`}>
-                        {row.map((skill) => {
-                            const Icon = skill.icon;
-                            return (
-                                <div
-                                    key={skill.label}
-                                    className="flex flex-col items-center justify-center w-32 h-32 rounded-lg p-2 border-2 border-transparent hover:border-gray-400 transition-all duration-200 cursor-default"
-                                >
-                                    {Icon ? 
-                                    (<Icon size={40} color={skill.color} />) :
-                                    (<span
-                                        className="text-base font-bold text-center"
-                                        style={{color:skill.color}}
-                                    >
-                                        {skill.label}
-                                    </span>
-                                    )}
-                                    <span className="text-xs mt-1 text-center text-gray-600">
-                                        {skill.label}
-                                    </span>
-                                </div>
-                            );
-                        })}
+                    <div key={rowIndex} 
+                        className={`flex w-full justify-between gap-4 ${
+                        rowIndex % 2 !== 0 ? 'px-[9.5%]' : ''}`}
+                    >
+                        {row.map((skill) => (
+                            <SkillCard key={skill.label} skill={skill} />
+                        ))}
                     </div>
                 ))}
             </div>
